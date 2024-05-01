@@ -22,3 +22,7 @@ MonoBehaviour:
   GameCameraConfig:
     FollowTargetOffset: {x: 0, y: 3, z: -6}
     StartRotation: {x: 10, y: 0, z: 0}
+  BallConfig:
+    JumpForce: 2
+    JumpDuration: 0.75
+    NumberOfJumps: 1

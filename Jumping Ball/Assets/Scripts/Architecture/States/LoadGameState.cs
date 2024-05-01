@@ -4,6 +4,7 @@ using Audio;
 using Data;
 using Game;
 using Game.Camera;
+using Game.Player;
 using UnityEngine;
 
 namespace Architecture.States
@@ -50,6 +51,8 @@ namespace Architecture.States
             
             Ball ball = _baseFactory.CreateBaseWithContainer<Ball>(AssetPath.Ball, 
                 level.BallStartPoint.position, Quaternion.identity, parent);
+            
+            ball.Initialize(level);
             
             cameraFollowTarget.SetTarget(ball.transform);
             

@@ -10,9 +10,12 @@ namespace Game.Beam
 {
     public class BeamLine : MonoBehaviour
     {
+        [SerializeField] private Transform _up;
         [SerializeField] private List<BeamPlatform> _platforms;
         
         private GameSettings _gameSettings;
+        
+        public Transform Up => _up;
 
         [Inject]
         public void Construct(GameSettings gameSettings)
