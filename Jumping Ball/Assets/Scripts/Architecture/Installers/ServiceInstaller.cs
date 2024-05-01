@@ -1,5 +1,7 @@
 using Architecture.Services;
 using Architecture.Services.Interfaces;
+using Architecture.States.Services;
+using Architecture.States.Services.Interfaces;
 using Data;
 using UnityEngine;
 using Zenject;
@@ -15,6 +17,9 @@ namespace Architecture.Installers
             BindGameSettings();
             BindCoroutineRunner();
             BindSceneLoader();
+            BindStateFactory();
+            BindStateMachine();
+            BindCreateStatesFacade();
             BindAssetProvider();
             BindBaseFactory();
             BindSaveService();
@@ -71,6 +76,30 @@ namespace Architecture.Installers
                 .To<BaseFactory>()
                 .AsSingle();
         }
+        
+        private void BindCreateStatesFacade()
+        {
+            Container
+                .Bind<ICreateStatesFacade>()
+                .To<CreateStatesFacade>()
+                .AsSingle();
+        }
+        
+        private void BindStateMachine()
+        {
+            Container
+                .Bind<IStateMachine>()
+                .To<StateMachine>()
+                .AsSingle();
+        }
+        
+        private void BindStateFactory()
+        {
+            Container
+                .Bind<IStateFactory>()
+                .To<StateFactory>()
+                .AsSingle();
+        }
 
         private void BindCoroutineRunner()
         {
@@ -80,7 +109,7 @@ namespace Architecture.Installers
                 .AsSingle()
                 .NonLazy();
         }
-
+        
         private void BindSceneLoader()
         {
             Container

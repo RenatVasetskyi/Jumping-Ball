@@ -1,5 +1,5 @@
 using Architecture.Services.Interfaces;
-using Architecture.States.Interfaces;
+using Architecture.States.Services.Interfaces;
 using Application = UnityEngine.Device.Application;
 using IState = Architecture.States.Interfaces.IState;
 

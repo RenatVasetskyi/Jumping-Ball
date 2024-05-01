@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Architecture.States.Interfaces;
+using Architecture.States.Services.Interfaces;
 
-namespace Architecture.States
+namespace Architecture.States.Services
 {
     public class StateMachine : IStateMachine
     {
-        public Dictionary<Type, IExitableState> States { get; set; } = new();
-        
         private IExitableState _activeState;
+        
+        public Dictionary<Type, IExitableState> States { get; set; } = new();
 
         public void Enter<TState>() where TState : class, IState
         {

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Architecture.States.Interfaces;
 
-namespace Architecture.States.Interfaces
+namespace Architecture.States.Services.Interfaces
 {
     public interface IStateMachine
     {
