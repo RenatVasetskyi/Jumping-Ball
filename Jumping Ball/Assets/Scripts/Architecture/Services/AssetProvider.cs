@@ -9,8 +9,6 @@ namespace Architecture.Services
     {
         private readonly Dictionary<string, Object> _loadedAssets = new();
 
-        private int _assetId;
-        
         public T LoadAsset<T>(string path) where T : Object
         {
             if (_loadedAssets.TryGetValue(path, out Object asset))
