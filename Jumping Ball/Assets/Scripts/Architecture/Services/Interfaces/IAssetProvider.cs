@@ -4,6 +4,6 @@ namespace Architecture.Services.Interfaces
 {
     public interface IAssetProvider
     {
-        T Initialize<T>(string path) where T : Object;
+        T LoadAsset<T>(string path) where T : Object;
     }
 }

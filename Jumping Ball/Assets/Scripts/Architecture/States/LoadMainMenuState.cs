@@ -35,7 +35,7 @@ namespace Architecture.States
         private void Initialize()
         {
             Transform parent = _baseFactory.CreateBaseWithObject<Transform>(AssetPath.BaseParent);
-
+            
             Camera camera = _baseFactory.CreateBaseWithContainer<Camera>(AssetPath.BaseCamera, parent);
             
             Canvas mainMenu = _baseFactory.CreateBaseWithContainer<Canvas>(AssetPath.MainMenu, parent);

@@ -17,18 +17,18 @@ namespace Architecture.Services
 
         public T CreateBaseWithContainer<T>(string path) where T : Component
         {
-            return _container.InstantiatePrefabForComponent<T>(_assetProvider.Initialize<T>(path));
+            return _container.InstantiatePrefabForComponent<T>(_assetProvider.LoadAsset<T>(path));
         }
 
         public T CreateBaseWithContainer<T>(string path, Transform parent) where T : Component
         {
-            return _container.InstantiatePrefabForComponent<T>(_assetProvider.Initialize<T>(path), parent);
+            return _container.InstantiatePrefabForComponent<T>(_assetProvider.LoadAsset<T>(path), parent);
         }
 
         public T CreateBaseWithContainer<T>(string path, Vector3 at, Quaternion rotation, Transform parent) where T : Component
         {
             return _container.InstantiatePrefabForComponent<T>(_assetProvider
-                    .Initialize<T>(path), at, rotation, parent);
+                    .LoadAsset<T>(path), at, rotation, parent);
         }
 
         public T CreateBaseWithContainer<T>(T prefab, Vector3 at, Quaternion rotation, Transform parent) where T : Component
@@ -43,12 +43,12 @@ namespace Architecture.Services
 
         public T CreateBaseWithObject<T>(string path) where T : Component
         {
-            return Object.Instantiate(_assetProvider.Initialize<T>(path));
+            return Object.Instantiate(_assetProvider.LoadAsset<T>(path));
         }
 
         public GameObject CreateBaseWithContainer(string path, Transform parent)
         {
-            return _container.InstantiatePrefab(_assetProvider.Initialize<GameObject>(path), parent);
+            return _container.InstantiatePrefab(_assetProvider.LoadAsset<GameObject>(path), parent);
         }
     }
 }
