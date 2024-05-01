@@ -1,0 +1,29 @@
+﻿using UnityEngine;
+
+namespace UI.Base
+{
+    public class HideWindowButton : WindowControlButton
+    {
+        public override void Control()
+        {
+            base.Control();
+
+            foreach (GameObject window in _windows)
+            {
+                AnimatedWindow[] animatedWindows = window.GetComponentsInChildren<AnimatedWindow>();
+
+                if (animatedWindows != null && animatedWindows.Length > 0)
+                {
+                    foreach (AnimatedWindow animatedWindow in animatedWindows)
+                    {
+                        animatedWindow.Hide();    
+                    }
+                }
+                else
+                {
+                    window.SetActive(false);
+                }
+            }
+        }
+    }
+}
