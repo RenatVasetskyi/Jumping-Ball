@@ -3,6 +3,7 @@ using Architecture.States.Interfaces;
 using Audio;
 using Data;
 using Game;
+using Game.Camera;
 using UnityEngine;
 
 namespace Architecture.States
@@ -42,12 +43,15 @@ namespace Architecture.States
             
             Transform parent = _baseFactory.CreateBaseWithObject<Transform>(AssetPath.BaseParent);
 
-            Camera camera = _baseFactory.CreateBaseWithContainer<Camera>(AssetPath.BaseCamera, parent);
+            CameraFollowTarget cameraFollowTarget = _baseFactory.CreateBaseWithContainer
+                <CameraFollowTarget>(AssetPath.CameraFollowTarget, parent);
             
             Level level =_baseFactory.CreateBaseWithContainer<Level>(AssetPath.Level, parent);
             
             Ball ball = _baseFactory.CreateBaseWithContainer<Ball>(AssetPath.Ball, 
                 level.BallStartPoint.position, Quaternion.identity, parent);
+            
+            cameraFollowTarget.SetTarget(ball.transform);
             
             _audioService.PlayMusic(MusicType.Game);
         }

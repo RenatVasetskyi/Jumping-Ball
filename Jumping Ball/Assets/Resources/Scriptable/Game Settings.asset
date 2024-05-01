@@ -19,3 +19,6 @@ MonoBehaviour:
     Color: {r: 0, g: 0.27265453, b: 1, a: 0}
   - Type: 2
     Color: {r: 0.053014517, g: 1, b: 0, a: 0}
+  GameCameraConfig:
+    FollowTargetOffset: {x: 0, y: 3, z: -6}
+    StartRotation: {x: 10, y: 0, z: 0}

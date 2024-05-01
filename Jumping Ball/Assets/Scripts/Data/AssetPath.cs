@@ -11,5 +11,6 @@ namespace Data
         public const string MainMenu = "Prefabs/UI/Menu/MainMenu";
         public const string Level = "Prefabs/Game/Levels/Level";
         public const string Ball = "Prefabs/Game/Ball";
+        public const string CameraFollowTarget = "Prefabs/Game/CameraFollowTarget";
     }
 }
