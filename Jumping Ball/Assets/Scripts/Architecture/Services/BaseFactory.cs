@@ -1,4 +1,6 @@
 using Architecture.Services.Interfaces;
+using Data;
+using Game.UI;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +10,8 @@ namespace Architecture.Services
     {
         private readonly DiContainer _container;
         private readonly IAssetProvider _assetProvider;
+
+        public GameView GameView { get; private set; }
 
         public BaseFactory(DiContainer container, IAssetProvider assetProvider)
         {
@@ -49,6 +53,14 @@ namespace Architecture.Services
         public GameObject CreateBaseWithContainer(string path, Transform parent)
         {
             return _container.InstantiatePrefab(_assetProvider.LoadAsset<GameObject>(path), parent);
+        }
+
+        public GameView CreateGameView(Transform parent)
+        {
+            GameView = _container.InstantiatePrefabForComponent<GameView>(
+                _assetProvider.LoadAsset<GameView>(AssetPath.GameView), parent);
+
+            return GameView;
         }
     }
 }

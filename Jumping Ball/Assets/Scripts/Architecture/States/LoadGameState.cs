@@ -5,6 +5,7 @@ using Data;
 using Game;
 using Game.Camera;
 using Game.Player;
+using Game.UI;
 using UnityEngine;
 
 namespace Architecture.States
@@ -50,11 +51,17 @@ namespace Architecture.States
             CameraFollowTarget cameraFollowTarget = _baseFactory.CreateBaseWithContainer
                 <CameraFollowTarget>(AssetPath.CameraFollowTarget, parent);
             
-            Level level =_baseFactory.CreateBaseWithContainer<Level>(AssetPath.Level, parent);
+            Camera uiCamera = _baseFactory.CreateBaseWithContainer
+                <Camera>(AssetPath.GameUICamera, parent);
+
+            GameView gameView = _baseFactory.CreateGameView(parent);
+            gameView.GetComponent<Canvas>().worldCamera = uiCamera;
+            gameView.SwipeDetector.SetCamera(uiCamera);
+            
+            Level level = _baseFactory.CreateBaseWithContainer<Level>(AssetPath.Level, parent);
             
             Ball ball = _baseFactory.CreateBaseWithContainer<Ball>(AssetPath.Ball, 
                 level.BallStartPoint.position, Quaternion.identity, parent);
-            
             ball.Initialize(level);
             
             cameraFollowTarget.SetTarget(ball.transform);
