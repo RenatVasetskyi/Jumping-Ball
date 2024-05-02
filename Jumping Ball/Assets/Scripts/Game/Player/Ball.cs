@@ -1,6 +1,8 @@
 using Architecture.Services.Interfaces;
 using Data;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using Game.Beam;
 using Game.Player.Data;
 using Game.UI.Swipes.Interfaces;
@@ -60,9 +62,9 @@ namespace Game.Player
 
             _currentBeamLine = _level.BeamLines[_currentBeamLineNumber];
             
-            transform.DOJump(_currentBeamLine.Up.transform.position + new Vector3
-                    (0, _sphereCollider.bounds.extents.y, 0), _config.JumpForce,
-                    _config.NumberOfJumps, _config.JumpDuration).SetEase(Ease.Linear).onComplete += JumpToNextBeamLine;
+            // transform.DOJump(_currentBeamLine.Up.transform.position + new Vector3
+                    // (0, _sphereCollider.bounds.extents.y, 0), _config.JumpForce,
+                    // _config.NumberOfJumps, _config.JumpDuration).SetEase(Ease.Linear).onComplete += JumpToNextBeamLine;
             
             _currentBeamLineNumber++;
         }
@@ -72,7 +74,7 @@ namespace Game.Player
             if (_isMovingHorizontal)
                 return;
             
-            if (_currentBeamPlatformNumber < _currentBeamLine.Platforms.Count)
+            if (_currentBeamPlatformNumber < _currentBeamLine.Platforms.Count - 1)
             {
                 ++_currentBeamPlatformNumber;
                 MoveHorizontalToCurrentPlatform();   
@@ -95,9 +97,10 @@ namespace Game.Player
         {
             _isMovingHorizontal = true;
             
-            LeanTween.moveX(gameObject, _currentBeamLine.Platforms
-                [_currentBeamPlatformNumber].transform.position.x, _config.ChangeLineDuration)
-                .setOnComplete(() => _isMovingHorizontal = false);
+            TweenerCore<Vector3, Vector3, VectorOptions> move = transform.DOMoveX(_currentBeamLine
+                .Platforms[_currentBeamPlatformNumber].transform.position.x, _config.ChangeLineDuration);
+            
+            move.onComplete += () => _isMovingHorizontal = false;
         }
 
         private bool IsTheEndOfPath()

@@ -26,3 +26,4 @@ MonoBehaviour:
     JumpForce: 2
     JumpDuration: 0.75
     NumberOfJumps: 1
+    ChangeLineDuration: 0.2
