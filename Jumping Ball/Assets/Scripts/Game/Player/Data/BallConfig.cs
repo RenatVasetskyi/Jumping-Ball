@@ -8,5 +8,6 @@ namespace Game.Player.Data
         public float JumpForce;
         public float JumpDuration;
         public int NumberOfJumps;
+        public float ChangeLineDuration;
     }
 }

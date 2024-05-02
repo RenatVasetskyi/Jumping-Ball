@@ -16,6 +16,7 @@ namespace Game.Beam
         private GameSettings _gameSettings;
         
         public Transform Up => _up;
+        public List<BeamPlatform> Platforms => _platforms;
 
         [Inject]
         public void Construct(GameSettings gameSettings)
