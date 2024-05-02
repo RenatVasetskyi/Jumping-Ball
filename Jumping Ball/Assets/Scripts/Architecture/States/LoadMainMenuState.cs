@@ -13,18 +13,21 @@ namespace Architecture.States
         private readonly ISceneLoader _sceneLoader;
         private readonly IAudioService _audioService;
         private readonly IBaseFactory _baseFactory;
+        private readonly IAssetProvider _assetProvider;
 
         public LoadMainMenuState(ISceneLoader sceneLoader, IAudioService audioService, 
-            IBaseFactory baseFactory)
+            IBaseFactory baseFactory, IAssetProvider assetProvider)
         {
             _sceneLoader = sceneLoader;
             _audioService = audioService;
             _baseFactory = baseFactory;
+            _assetProvider = assetProvider;
         }
         
         public void Exit()
         {
             _audioService.StopMusic();
+            _assetProvider.Cleanup();
         }
 
         public void Enter()

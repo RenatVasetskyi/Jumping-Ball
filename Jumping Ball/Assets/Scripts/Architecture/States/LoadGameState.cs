@@ -17,19 +17,22 @@ namespace Architecture.States
         private readonly IGamePauser _gamePauser;
         private readonly IAudioService _audioService;
         private readonly IBaseFactory _baseFactory;
+        private readonly IAssetProvider _assetProvider;
 
         public LoadGameState(ISceneLoader sceneLoader, IGamePauser gamePauser,
-            IAudioService audioService, IBaseFactory baseFactory)
+            IAudioService audioService, IBaseFactory baseFactory, IAssetProvider assetProvider)
         {
             _sceneLoader = sceneLoader;
             _gamePauser = gamePauser;
             _audioService = audioService;
             _baseFactory = baseFactory;
+            _assetProvider = assetProvider;
         }
         
         public void Exit()
         {
             _audioService.StopMusic();
+            _assetProvider.Cleanup();
         }
 
         public void Enter()

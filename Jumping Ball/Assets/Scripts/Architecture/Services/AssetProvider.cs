@@ -19,5 +19,10 @@ namespace Architecture.Services
             
             return loadedResource;
         }
+
+        public void Cleanup()
+        {
+            _loadedAssets.Clear();
+        }
     }
 }
