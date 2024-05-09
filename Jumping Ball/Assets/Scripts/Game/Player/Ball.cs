@@ -60,18 +60,18 @@ namespace Game.Player
 
         private void JumpToNextBeamLine()
         {
-            //Check Victory
-            if (IsTheEndOfPath())
-            {
-                _level.SendVictory();
-                
-                return;
-            }
-
             //Check Lose
             if (_currentBeamLine != null && _colorType != _currentBeamLine.Platforms[_currentBeamPlatformNumber].ColorType)
             {
                 _level.SendLose();
+                
+                return;
+            }
+            
+            //Check Victory
+            if (IsTheEndOfPath())
+            {
+                _level.SendVictory();
                 
                 return;
             }
