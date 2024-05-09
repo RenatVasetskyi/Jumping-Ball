@@ -12,18 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5beb992161e04217be0ce871cd9527a, type: 3}
   m_Name: Game Settings
   m_EditorClassIdentifier: 
-  BeamPlatformConfigs:
+  ColorConfigs:
   - Type: 0
-    Color: {r: 0.97264934, g: 1, b: 0, a: 0}
+    Color: {r: 0.92993367, g: 1, b: 0, a: 0}
   - Type: 1
-    Color: {r: 0, g: 0.27265453, b: 1, a: 0}
+    Color: {r: 0, g: 0.32854462, b: 1, a: 0}
   - Type: 2
-    Color: {r: 0.053014517, g: 1, b: 0, a: 0}
+    Color: {r: 0.15178537, g: 1, b: 0, a: 0}
   GameCameraConfig:
     FollowTargetOffset: {x: 0, y: 3, z: -6}
     StartRotation: {x: 10, y: 0, z: 0}
   BallConfig:
     JumpForce: 2
     JumpDuration: 0.75
-    NumberOfJumps: 1
     ChangeLineDuration: 0.2

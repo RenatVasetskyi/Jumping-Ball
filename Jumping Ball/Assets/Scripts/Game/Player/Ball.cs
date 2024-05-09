@@ -4,6 +4,8 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Game.Beam;
+using Game.Beam.Data;
+using Game.Beam.Enums;
 using Game.Player.Data;
 using Game.UI.Swipes.Interfaces;
 using UnityEngine;
@@ -14,9 +16,11 @@ namespace Game.Player
     public class Ball : MonoBehaviour
     {
         [SerializeField] private SphereCollider _sphereCollider;
+        [SerializeField] private MeshRenderer _meshRenderer;
         
         private BallConfig _config;
         private Level _level;
+        private ColorConfig[] _colorConfigs;
         private ISwipeReporter _swipeReporter;
         
         private BeamLine _currentBeamLine;
@@ -26,10 +30,13 @@ namespace Game.Player
 
         private bool _isMovingHorizontal;
 
+        private ColorType _colorType;
+
         [Inject]
         public void Construct(GameSettings gameSettings, IBaseFactory baseFactory)
         {
             _config = gameSettings.BallConfig;
+            _colorConfigs = gameSettings.ColorConfigs;
             _swipeReporter = baseFactory.GameView.SwipeDetector;
         }
 
@@ -53,12 +60,23 @@ namespace Game.Player
 
         private void JumpToNextBeamLine()
         {
+            //Check Victory
             if (IsTheEndOfPath())
             {
                 _level.SendVictory();
                 
                 return;
             }
+
+            //Check Lose
+            if (_currentBeamLine != null && _colorType != _currentBeamLine.Platforms[_currentBeamPlatformNumber].ColorType)
+            {
+                _level.SendLose();
+                
+                return;
+            }
+            
+            ChangeColorType(GetRandomColorConfig());
 
             _currentBeamLine = _level.BeamLines[_currentBeamLineNumber];
 
@@ -100,6 +118,17 @@ namespace Game.Player
                 .Platforms[_currentBeamPlatformNumber].transform.position.x, _config.ChangeLineDuration);
             
             move.onComplete += () => _isMovingHorizontal = false;
+        }
+        
+        private void ChangeColorType(ColorConfig colorConfig)
+        {
+            _meshRenderer.material.color = colorConfig.Color;
+            _colorType = colorConfig.Type;
+        }
+        
+        private ColorConfig GetRandomColorConfig()
+        {
+            return _colorConfigs[Random.Range(0, _colorConfigs.Length)];
         }
 
         private bool IsTheEndOfPath()

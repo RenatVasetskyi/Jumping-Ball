@@ -119,3 +119,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sphereCollider: {fileID: 3820410756108348086}
+  _meshRenderer: {fileID: 3051455911067123316}

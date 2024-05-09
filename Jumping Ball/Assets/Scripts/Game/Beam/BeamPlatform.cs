@@ -1,4 +1,5 @@
 using Game.Beam.Data;
+using Game.Beam.Enums;
 using UnityEngine;
 
 namespace Game.Beam
@@ -7,12 +8,14 @@ namespace Game.Beam
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
-        private BeamPlatformConfig _config;
-        
-        public void SetConfig(BeamPlatformConfig config)
+        private ColorConfig _config;
+        public ColorType ColorType { get; private set; }
+
+        public void SetConfig(ColorConfig config)
         {
             _config = config;
             _meshRenderer.material.color = _config.Color;
+            ColorType = config.Type;
         }
     }
 }

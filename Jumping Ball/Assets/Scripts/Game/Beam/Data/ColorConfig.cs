@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Game.Beam.Data
 {
     [Serializable]
-    public class BeamPlatformConfig
+    public class ColorConfig
     {
-        public BeamPlatformType Type;
+        public ColorType Type;
         public Color Color;
     }
 }
