@@ -61,10 +61,9 @@ namespace Game.Player
             }
 
             _currentBeamLine = _level.BeamLines[_currentBeamLineNumber];
-            
-            // transform.DOJump(_currentBeamLine.Up.transform.position + new Vector3
-                    // (0, _sphereCollider.bounds.extents.y, 0), _config.JumpForce,
-                    // _config.NumberOfJumps, _config.JumpDuration).SetEase(Ease.Linear).onComplete += JumpToNextBeamLine;
+
+            StartCoroutine(transform.DoJumpWithoutX(_currentBeamLine.Up.transform.position + new Vector3
+                (0, _sphereCollider.bounds.extents.y, 0), _config.JumpForce, _config.JumpDuration, JumpToNextBeamLine));
             
             _currentBeamLineNumber++;
         }
