@@ -20,11 +20,11 @@ namespace Architecture.Installers
             BindAssetProvider();
             BindSceneLoader();
             BindFactories();
-            BindStateMachine();
+            BindTimeServices();
             BindSaveService();
-            BindAudioService();
             BindCurrencyService();
-            BindGamePauser();
+            BindAudioService();
+            BindStateMachine();
         }
 
         private void BindFactories()
@@ -35,79 +35,50 @@ namespace Architecture.Installers
             Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
         }
         
-        private void BindGamePauser()
-        {
-            Container
-                .Bind<IGamePauser>()
-                .To<GamePauser>()
-                .AsSingle();
-        }
-        
         private void BindCurrencyService()
         {
-            Container
-                .Bind<ICurrencyService>()
-                .To<CurrencyService>()
-                .AsSingle();
+            Container.Bind<ICurrencyService>().To<CurrencyService>().AsSingle();
         }
 
         private void BindGameSettings()
         {
-            Container
-                .Bind<GameSettings>()
-                .FromScriptableObject(_gameSettings)
-                .AsSingle();
+            Container.Bind<GameSettings>().FromScriptableObject(_gameSettings).AsSingle();
         }
 
         private void BindSaveService()
         {
-            Container
-                .Bind<ISaveService>()
-                .To<SaveService>()
-                .AsSingle();
+            Container.Bind<ISaveService>().To<SaveService>().AsSingle();
         }
         
         private void BindAudioService()
         {
-            Container
-                .Bind<IAudioService>()
-                .To<AudioService>()
-                .AsSingle()
-                .NonLazy();
+            Container.Bind<IAudioService>().To<AudioService>().AsSingle().NonLazy();
         }
         
         private void BindStateMachine()
         {
-            Container
-                .Bind<IStateMachine>()
-                .To<StateMachine>()
-                .AsSingle();
+            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
         }
         
         private void BindCoroutineRunner()
         {
-            Container
-                .BindInterfacesTo<ServiceInstaller>()
-                .FromInstance(this)
-                .AsSingle()
-                .NonLazy();
+            Container.BindInterfacesTo<ServiceInstaller>().FromInstance(this).AsSingle().NonLazy();
         }
         
         private void BindSceneLoader()
         {
-            Container
-                .Bind<ISceneLoader>()
-                .To<SceneLoader>()
-                .AsSingle()
-                .NonLazy();
+            Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle().NonLazy();
         }
 
 		private void BindAssetProvider()
         {
-            Container
-                .Bind<IAssetProvider>()
-                .To<AssetProvider>()
-                .AsSingle();
+            Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
+        }
+
+        private void BindTimeServices()
+        {
+            Container.Bind<ICountDownService>().To<CountDownService>().AsSingle();
+            Container.Bind<IGamePauser>().To<GamePauser>().AsSingle();
         }
     }
 }

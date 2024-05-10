@@ -20,10 +20,15 @@ namespace Architecture.States
         private readonly IBaseFactory _baseFactory;
         private readonly IAssetProvider _assetProvider;
         private readonly IUIFactory _uiFactory;
+        private readonly ICountDownService _countDownService;
+        private readonly GameSettings _gameSettings;
+        
+        private Ball _ball;
 
         public LoadGameState(ISceneLoader sceneLoader, IGamePauser gamePauser,
-            IAudioService audioService, IBaseFactory baseFactory, IAssetProvider assetProvider, 
-            IUIFactory uiFactory)
+            IAudioService audioService, IBaseFactory baseFactory,
+            IAssetProvider assetProvider, IUIFactory uiFactory, 
+            ICountDownService countDownService, GameSettings gameSettings)
         {
             _sceneLoader = sceneLoader;
             _gamePauser = gamePauser;
@@ -31,23 +36,29 @@ namespace Architecture.States
             _baseFactory = baseFactory;
             _assetProvider = assetProvider;
             _uiFactory = uiFactory;
+            _countDownService = countDownService;
+            _gameSettings = gameSettings;
         }
         
         public void Exit()
         {
             _audioService.StopMusic();
             _assetProvider.Cleanup();
+            
+            _countDownService.OnCountDownFinished -= Unpause;
         }
 
         public void Enter()
         {
+            _countDownService.OnCountDownFinished += Unpause;
+            
             _sceneLoader.Load(GameScene, Initialize);
         }
 
         private void Initialize()
         {
             _gamePauser.Clear();
-            _gamePauser.SetPause(false);
+            _gamePauser.SetPause(true);
             
             Transform parent = _baseFactory.CreateBaseWithObject<Transform>(AssetPath.BaseParent);
 
@@ -63,16 +74,23 @@ namespace Architecture.States
             
             Level level = _baseFactory.CreateBaseWithContainer<Level>(AssetPath.Level, parent);
             
-            Ball ball = _baseFactory.CreateBaseWithContainer<Ball>(AssetPath.Ball, 
+            _ball = _baseFactory.CreateBaseWithContainer<Ball>(AssetPath.Ball, 
                 level.BallStartPoint.position, Quaternion.identity, parent);
-            ball.Initialize(level);
+            _ball.Initialize(level);
             
-            cameraFollowTarget.SetTarget(ball.transform);
+            cameraFollowTarget.SetTarget(_ball.transform);
             
             _audioService.PlayMusic(MusicType.Game);
             
             if (_uiFactory.LoadingCurtain != null)
                 _uiFactory.LoadingCurtain.Hide();
+            
+            _countDownService.StartCountDown(_gameSettings.GameCountDownConfig.TimeInSecondsBeforeGameStart);
+        }
+        
+        private void Unpause()
+        {
+            _gamePauser.SetPause(false);
         }
     }
 }

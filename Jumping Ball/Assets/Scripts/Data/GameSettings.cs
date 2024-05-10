@@ -1,6 +1,7 @@
 using Game.Beam.Data;
 using Game.Camera.Data;
 using Game.Player.Data;
+using Game.UI.CountDown.Data;
 using UnityEngine;
 
 namespace Data
@@ -11,5 +12,6 @@ namespace Data
         public ColorConfig[] ColorConfigs;
         public GameCameraConfig GameCameraConfig;
         public BallConfig BallConfig;
+        public GameCountDownConfig GameCountDownConfig;
     }
 }

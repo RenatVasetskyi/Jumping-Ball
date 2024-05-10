@@ -13,7 +13,7 @@ using Zenject;
 
 namespace Game.Player
 {
-    public class Ball : MonoBehaviour
+    public class Ball : MonoBehaviour, IPauseHandler
     {
         [SerializeField] private SphereCollider _sphereCollider;
         [SerializeField] private MeshRenderer _meshRenderer;
@@ -22,6 +22,7 @@ namespace Game.Player
         private Level _level;
         private ColorConfig[] _colorConfigs;
         private ISwipeReporter _swipeReporter;
+        private IGamePauser _gamePauser;
         
         private BeamLine _currentBeamLine;
         
@@ -29,12 +30,15 @@ namespace Game.Player
         private int _currentBeamPlatformNumber = 1;
 
         private bool _isMovingHorizontal;
+        private bool _canMove;
 
         private ColorType _colorType;
 
         [Inject]
-        public void Construct(GameSettings gameSettings, IBaseFactory baseFactory)
+        public void Construct(GameSettings gameSettings, IBaseFactory baseFactory, 
+            IGamePauser gamePauser)
         {
+            _gamePauser = gamePauser;
             _config = gameSettings.BallConfig;
             _colorConfigs = gameSettings.ColorConfigs;
             _swipeReporter = baseFactory.GameView.SwipeDetector;
@@ -43,9 +47,15 @@ namespace Game.Player
         public void Initialize(Level level)
         {
             _level = level;
-            
-            JumpToNextBeamLine();
-            MoveHorizontalToCurrentPlatform();
+            _isMovingHorizontal = true;
+        }
+        
+        public void SetPause(bool isPaused)
+        {
+            // if (isPaused)
+                // Stop();
+            // else
+                // StartMove();
         }
 
         private void Awake()
@@ -56,6 +66,14 @@ namespace Game.Player
         private void OnDestroy()
         {
             Unsubscribe();
+        }
+        
+        private void StartMove()
+        {
+            _isMovingHorizontal = false;
+            
+            JumpToNextBeamLine();
+            MoveHorizontalToCurrentPlatform();
         }
 
         private void JumpToNextBeamLine()
@@ -86,6 +104,16 @@ namespace Game.Player
             _currentBeamLineNumber++;
         }
         
+        private void MoveHorizontalToCurrentPlatform()
+        {
+            _isMovingHorizontal = true;
+            
+            TweenerCore<Vector3, Vector3, VectorOptions> move = transform.DOMoveX(_currentBeamLine
+                .Platforms[_currentBeamPlatformNumber].transform.position.x, _config.ChangeLineDuration);
+            
+            move.onComplete += () => _isMovingHorizontal = false;
+        }
+        
         private void MoveRight()
         {
             if (_isMovingHorizontal)
@@ -110,16 +138,6 @@ namespace Game.Player
             }
         }
         
-        private void MoveHorizontalToCurrentPlatform()
-        {
-            _isMovingHorizontal = true;
-            
-            TweenerCore<Vector3, Vector3, VectorOptions> move = transform.DOMoveX(_currentBeamLine
-                .Platforms[_currentBeamPlatformNumber].transform.position.x, _config.ChangeLineDuration);
-            
-            move.onComplete += () => _isMovingHorizontal = false;
-        }
-        
         private void ChangeColorType(ColorConfig colorConfig)
         {
             _meshRenderer.material.color = colorConfig.Color;
@@ -140,12 +158,14 @@ namespace Game.Player
         {
             _swipeReporter.OnSwipeLeft += MoveLeft;
             _swipeReporter.OnSwipeRight += MoveRight;
+            _gamePauser.Register(this);
         }
 
         private void Unsubscribe()
         {
             _swipeReporter.OnSwipeLeft -= MoveLeft;
             _swipeReporter.OnSwipeRight -= MoveRight;
+            _gamePauser.UnRegister(this);
         }
     }
 }
