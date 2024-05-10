@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace Game.UI
+namespace Game.UI.CountDown
 {
     public class CountDownBeforeStartGame : MonoBehaviour
     {
@@ -42,23 +42,18 @@ namespace Game.UI
 
         private void UpdateText(int timeLeftInSeconds)
         {
-            _text.text = timeLeftInSeconds.ToString();
-            
-            DoScaleAnimation();
-        }
-
-        private void DoScaleAnimation()
-        {
             GameCountDownConfig config = _gameSettings.GameCountDownConfig;
             
             LeanTween.scale(_text.gameObject, config.MinScale, config.UnscaleDuration)
                 .setEase(config.UnScaleEasing).setOnComplete(() =>
                 {
+                    _text.text = timeLeftInSeconds.ToString();
+                    
                     LeanTween.scale(_text.gameObject, config.MaxScale, config.ScaleDuration)
                         .setEase(config.ScaleEasing);        
                 });
         }
-        
+
         private void DestroyMyself()
         {
             Destroy(gameObject);

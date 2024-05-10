@@ -1,3 +1,4 @@
+using Architecture.Services.Factories.Interfaces;
 using Architecture.Services.Interfaces;
 using Data;
 using DG.Tweening;
@@ -35,13 +36,13 @@ namespace Game.Player
         private ColorType _colorType;
 
         [Inject]
-        public void Construct(GameSettings gameSettings, IBaseFactory baseFactory, 
+        public void Construct(GameSettings gameSettings, IUIFactory uiFactory, 
             IGamePauser gamePauser)
         {
             _gamePauser = gamePauser;
             _config = gameSettings.BallConfig;
             _colorConfigs = gameSettings.ColorConfigs;
-            _swipeReporter = baseFactory.GameView.SwipeDetector;
+            _swipeReporter = uiFactory.GameView.SwipeDetector;
         }
 
         public void Initialize(Level level)

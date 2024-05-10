@@ -1,6 +1,5 @@
+using Architecture.Services.Factories.Interfaces;
 using Architecture.Services.Interfaces;
-using Data;
-using Game.UI;
 using UnityEngine;
 using Zenject;
 
@@ -8,41 +7,39 @@ namespace Architecture.Services.Factories
 {
     public class BaseFactory : IBaseFactory
     {
-        private readonly DiContainer _container;
+        private readonly IInstantiator _instantiator;
         private readonly IAssetProvider _assetProvider;
 
-        public GameView GameView { get; private set; }
-
-        public BaseFactory(DiContainer container, IAssetProvider assetProvider)
+        public BaseFactory(IInstantiator instantiator, IAssetProvider assetProvider)
         {
-            _container = container;
+            _instantiator = instantiator;
             _assetProvider = assetProvider;
         }
 
         public T CreateBaseWithContainer<T>(string path) where T : Component
         {
-            return _container.InstantiatePrefabForComponent<T>(_assetProvider.LoadAsset<T>(path));
+            return _instantiator.InstantiatePrefabForComponent<T>(_assetProvider.LoadAsset<T>(path));
         }
 
         public T CreateBaseWithContainer<T>(string path, Transform parent) where T : Component
         {
-            return _container.InstantiatePrefabForComponent<T>(_assetProvider.LoadAsset<T>(path), parent);
+            return _instantiator.InstantiatePrefabForComponent<T>(_assetProvider.LoadAsset<T>(path), parent);
         }
 
         public T CreateBaseWithContainer<T>(string path, Vector3 at, Quaternion rotation, Transform parent) where T : Component
         {
-            return _container.InstantiatePrefabForComponent<T>(_assetProvider
+            return _instantiator.InstantiatePrefabForComponent<T>(_assetProvider
                     .LoadAsset<T>(path), at, rotation, parent);
         }
 
         public T CreateBaseWithContainer<T>(T prefab, Vector3 at, Quaternion rotation, Transform parent) where T : Component
         {
-            return _container.InstantiatePrefabForComponent<T>(prefab, at, rotation, parent);
+            return _instantiator.InstantiatePrefabForComponent<T>(prefab, at, rotation, parent);
         }
 
         public GameObject CreateBaseWithContainer(GameObject prefab, Vector3 at, Quaternion rotation, Transform parent)
         {
-            return _container.InstantiatePrefab(prefab, at, rotation, parent);
+            return _instantiator.InstantiatePrefab(prefab, at, rotation, parent);
         }
 
         public T CreateBaseWithObject<T>(string path) where T : Component
@@ -52,15 +49,7 @@ namespace Architecture.Services.Factories
 
         public GameObject CreateBaseWithContainer(string path, Transform parent)
         {
-            return _container.InstantiatePrefab(_assetProvider.LoadAsset<GameObject>(path), parent);
-        }
-
-        public GameView CreateGameView(Transform parent)
-        {
-            GameView = _container.InstantiatePrefabForComponent<GameView>(
-                _assetProvider.LoadAsset<GameView>(AssetPath.GameView), parent);
-
-            return GameView;
+            return _instantiator.InstantiatePrefab(_assetProvider.LoadAsset<GameObject>(path), parent);
         }
     }
 }

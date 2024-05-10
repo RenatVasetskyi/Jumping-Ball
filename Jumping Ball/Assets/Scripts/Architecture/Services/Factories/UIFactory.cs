@@ -1,7 +1,10 @@
+using Architecture.Services.Factories.Interfaces;
 using Architecture.Services.Interfaces;
 using Data;
 using Game.UI;
+using Game.UI.CountDown;
 using UI.Base;
+using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
 
@@ -13,6 +16,7 @@ namespace Architecture.Services.Factories
         private readonly IAssetProvider _assetProvider;
 
         public LoadingCurtain LoadingCurtain { get; private set; }
+        public GameView GameView { get; private set; }
 
         public UIFactory(IInstantiator instantiator, IAssetProvider assetProvider)
         {
@@ -39,6 +43,14 @@ namespace Architecture.Services.Factories
         {
              return _instantiator.InstantiatePrefabForComponent<CountDownBeforeStartGame>
                  (_assetProvider.LoadAsset<CountDownBeforeStartGame>(AssetPath.CountDownBeforeStartGame));
+        }
+
+        public GameView CreateGameView(Transform parent)
+        {
+            GameView = _instantiator.InstantiatePrefabForComponent<GameView>(
+                _assetProvider.LoadAsset<GameView>(AssetPath.GameView), parent);
+
+            return GameView;
         }
     }
 }

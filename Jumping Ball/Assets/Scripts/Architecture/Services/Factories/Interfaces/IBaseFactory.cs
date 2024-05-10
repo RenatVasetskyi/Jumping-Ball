@@ -1,11 +1,9 @@
-using Game.UI;
 using UnityEngine;
 
-namespace Architecture.Services.Interfaces
+namespace Architecture.Services.Factories.Interfaces
 {
     public interface IBaseFactory
     {
-        GameView GameView { get; }
         T CreateBaseWithContainer<T>(string path) where T : Component;
         T CreateBaseWithContainer<T>(string path, Transform parent) where T : Component;
         T CreateBaseWithContainer<T>(string path, Vector3 at, Quaternion rotation, Transform parent) where T : Component;
@@ -13,6 +11,5 @@ namespace Architecture.Services.Interfaces
         GameObject CreateBaseWithContainer(GameObject prefab, Vector3 at, Quaternion rotation, Transform parent);
         T CreateBaseWithObject<T>(string path) where T : Component;
         GameObject CreateBaseWithContainer(string path, Transform parent);
-        GameView CreateGameView(Transform parent);
     }
 }

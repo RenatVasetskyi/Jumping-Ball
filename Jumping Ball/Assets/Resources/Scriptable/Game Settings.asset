@@ -32,5 +32,5 @@ MonoBehaviour:
     MaxScale: {x: 2, y: 2, z: 2}
     ScaleDuration: 0.7
     UnscaleDuration: 0.3
-    ScaleEasing: 34
+    ScaleEasing: 27
     UnScaleEasing: 1

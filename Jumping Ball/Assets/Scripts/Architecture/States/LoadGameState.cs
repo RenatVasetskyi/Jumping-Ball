@@ -1,3 +1,4 @@
+using Architecture.Services.Factories.Interfaces;
 using Architecture.Services.Interfaces;
 using Architecture.States.Interfaces;
 using Audio;
@@ -6,6 +7,7 @@ using Game;
 using Game.Camera;
 using Game.Player;
 using Game.UI;
+using Game.UI.CountDown;
 using UnityEngine;
 
 namespace Architecture.States
@@ -68,7 +70,7 @@ namespace Architecture.States
             Camera uiCamera = _baseFactory.CreateBaseWithContainer
                 <Camera>(AssetPath.GameUICamera, parent);
 
-            GameView gameView = _baseFactory.CreateGameView(parent);
+            GameView gameView = _uiFactory.CreateGameView(parent);
             gameView.GetComponent<Canvas>().worldCamera = uiCamera;
             gameView.SwipeDetector.SetCamera(uiCamera);
             
