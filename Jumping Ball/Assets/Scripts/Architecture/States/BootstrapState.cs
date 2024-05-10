@@ -15,14 +15,16 @@ namespace Architecture.States
         private readonly IAudioService _audioService;
         private readonly ICurrencyService _currencyService;
         private readonly ISceneLoader _sceneLoader;
+        private readonly IUIFactory _uiFactory;
 
         public BootstrapState(IStateMachine stateMachine, IAudioService audioService,
-            ICurrencyService currencyService, ISceneLoader sceneLoader)
+            ICurrencyService currencyService, ISceneLoader sceneLoader, IUIFactory uiFactory)
         {
             _stateMachine = stateMachine;
             _audioService = audioService;
             _currencyService = currencyService;
             _sceneLoader = sceneLoader;
+            _uiFactory = uiFactory;
         }
 
         public void Exit()
@@ -31,6 +33,7 @@ namespace Architecture.States
 
         public void Enter()
         {
+            _uiFactory.CreateLoadingCurtain();
             _sceneLoader.Load(BootSceneName, Initialize);
         }
 

@@ -1,4 +1,5 @@
 using Architecture.Services;
+using Architecture.Services.Factories;
 using Architecture.Services.Interfaces;
 using Architecture.States.Services;
 using Architecture.States.Services.Interfaces;
@@ -16,16 +17,22 @@ namespace Architecture.Installers
         {
             BindGameSettings();
             BindCoroutineRunner();
-            BindSceneLoader();
-            BindStateFactory();
-            BindStateMachine();
-            BindCreateStatesFacade();
             BindAssetProvider();
-            BindBaseFactory();
+            BindSceneLoader();
+            BindFactories();
+            BindStateMachine();
             BindSaveService();
             BindAudioService();
             BindCurrencyService();
             BindGamePauser();
+        }
+
+        private void BindFactories()
+        {
+            Container.Bind<IBaseFactory>().To<BaseFactory>().AsSingle();
+            Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
+            Container.Bind<ICreateStatesFacade>().To<CreateStatesFacade>().AsSingle();
+            Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
         }
         
         private void BindGamePauser()
@@ -69,22 +76,6 @@ namespace Architecture.Installers
                 .NonLazy();
         }
         
-        private void BindBaseFactory()
-        {
-            Container
-                .Bind<IBaseFactory>()
-                .To<BaseFactory>()
-                .AsSingle();
-        }
-        
-        private void BindCreateStatesFacade()
-        {
-            Container
-                .Bind<ICreateStatesFacade>()
-                .To<CreateStatesFacade>()
-                .AsSingle();
-        }
-        
         private void BindStateMachine()
         {
             Container
@@ -93,14 +84,6 @@ namespace Architecture.Installers
                 .AsSingle();
         }
         
-        private void BindStateFactory()
-        {
-            Container
-                .Bind<IStateFactory>()
-                .To<StateFactory>()
-                .AsSingle();
-        }
-
         private void BindCoroutineRunner()
         {
             Container

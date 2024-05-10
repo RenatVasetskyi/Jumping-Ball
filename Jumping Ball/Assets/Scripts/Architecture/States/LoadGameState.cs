@@ -19,15 +19,18 @@ namespace Architecture.States
         private readonly IAudioService _audioService;
         private readonly IBaseFactory _baseFactory;
         private readonly IAssetProvider _assetProvider;
+        private readonly IUIFactory _uiFactory;
 
         public LoadGameState(ISceneLoader sceneLoader, IGamePauser gamePauser,
-            IAudioService audioService, IBaseFactory baseFactory, IAssetProvider assetProvider)
+            IAudioService audioService, IBaseFactory baseFactory, IAssetProvider assetProvider, 
+            IUIFactory uiFactory)
         {
             _sceneLoader = sceneLoader;
             _gamePauser = gamePauser;
             _audioService = audioService;
             _baseFactory = baseFactory;
             _assetProvider = assetProvider;
+            _uiFactory = uiFactory;
         }
         
         public void Exit()
@@ -67,6 +70,9 @@ namespace Architecture.States
             cameraFollowTarget.SetTarget(ball.transform);
             
             _audioService.PlayMusic(MusicType.Game);
+            
+            if (_uiFactory.LoadingCurtain != null)
+                _uiFactory.LoadingCurtain.Hide();
         }
     }
 }

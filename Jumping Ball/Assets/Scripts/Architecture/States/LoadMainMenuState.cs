@@ -14,20 +14,24 @@ namespace Architecture.States
         private readonly IAudioService _audioService;
         private readonly IBaseFactory _baseFactory;
         private readonly IAssetProvider _assetProvider;
+        private readonly IUIFactory _uiFactory;
 
         public LoadMainMenuState(ISceneLoader sceneLoader, IAudioService audioService, 
-            IBaseFactory baseFactory, IAssetProvider assetProvider)
+            IBaseFactory baseFactory, IAssetProvider assetProvider, IUIFactory uiFactory)
         {
             _sceneLoader = sceneLoader;
             _audioService = audioService;
             _baseFactory = baseFactory;
             _assetProvider = assetProvider;
+            _uiFactory = uiFactory;
         }
         
         public void Exit()
         {
             _audioService.StopMusic();
             _assetProvider.Cleanup();
+            
+            _uiFactory.CreateLoadingCurtain();
         }
 
         public void Enter()
@@ -45,6 +49,9 @@ namespace Architecture.States
             mainMenu.worldCamera = camera;
 
             _audioService.PlayMusic(MusicType.MainMenu);
+
+            if (_uiFactory.LoadingCurtain != null)
+                _uiFactory.LoadingCurtain.Hide();
         }
     }
 }

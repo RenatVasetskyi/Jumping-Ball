@@ -4,7 +4,7 @@ using Game.UI;
 using UnityEngine;
 using Zenject;
 
-namespace Architecture.Services
+namespace Architecture.Services.Factories
 {
     public class BaseFactory : IBaseFactory
     {
