@@ -1,8 +1,6 @@
 using Architecture.Services.Interfaces;
 using Data;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using Game.Beam;
 using Game.Beam.Data;
 using Game.Beam.Enums;
@@ -10,6 +8,7 @@ using Game.Player.Data;
 using Game.UI.Swipes.Interfaces;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Game.Player
 {
@@ -29,8 +28,9 @@ namespace Game.Player
         private int _currentBeamLineNumber;
         private int _currentBeamPlatformNumber = 1;
 
-        private bool _isMovingHorizontal;
+        private bool _isMovementStarted;
         private bool _canMove;
+        private bool _isMovingHorizontal;
 
         private ColorType _colorType;
 
@@ -47,19 +47,26 @@ namespace Game.Player
         public void Initialize(Level level)
         {
             _level = level;
-            _isMovingHorizontal = true;
         }
-        
+
         public void SetPause(bool isPaused)
         {
-            // if (isPaused)
-                // Stop();
-            // else
-                // StartMove();
+            if (isPaused)
+            {
+                Pause();
+                return;
+            }
+
+            if (_isMovementStarted)
+                UnPause();
+            else
+                StartMovement();
         }
 
         private void Awake()
         {
+            _canMove = false;
+            
             Subscribe();
         }
 
@@ -68,12 +75,27 @@ namespace Game.Player
             Unsubscribe();
         }
         
-        private void StartMove()
+        private void StartMovement()
         {
-            _isMovingHorizontal = false;
+            _isMovementStarted = true;
+            _canMove = true;
             
             JumpToNextBeamLine();
-            MoveHorizontalToCurrentPlatform();
+            MoveHorizontalToCurrentPlatform(_config.ChangeLineDuration);
+        }
+        
+        private void Pause()
+        {
+            _canMove = false;
+            
+            DOTween.Pause(transform);
+        }
+        
+        private void UnPause()
+        {
+            _canMove = true;
+            
+            DOTween.Play(transform);
         }
 
         private void JumpToNextBeamLine()
@@ -89,6 +111,7 @@ namespace Game.Player
             //Check Victory
             if (IsTheEndOfPath())
             {
+                _canMove = false;
                 _level.SendVictory();
                 
                 return;
@@ -104,37 +127,36 @@ namespace Game.Player
             _currentBeamLineNumber++;
         }
         
-        private void MoveHorizontalToCurrentPlatform()
+        private void MoveHorizontalToCurrentPlatform(float duration)
         {
             _isMovingHorizontal = true;
-            
-            TweenerCore<Vector3, Vector3, VectorOptions> move = transform.DOMoveX(_currentBeamLine
-                .Platforms[_currentBeamPlatformNumber].transform.position.x, _config.ChangeLineDuration);
-            
-            move.onComplete += () => _isMovingHorizontal = false;
+
+            transform.DOMoveX(_currentBeamLine.Platforms
+                [_currentBeamPlatformNumber].transform.position.x, duration)
+                .onComplete += () => { _isMovingHorizontal = false; };
         }
         
         private void MoveRight()
         {
-            if (_isMovingHorizontal)
+            if (_isMovingHorizontal | !_canMove)
                 return;
             
             if (_currentBeamPlatformNumber < _currentBeamLine.Platforms.Count - 1)
             {
                 ++_currentBeamPlatformNumber;
-                MoveHorizontalToCurrentPlatform();   
+                MoveHorizontalToCurrentPlatform(_config.ChangeLineDuration);   
             }
         }
 
         private void MoveLeft()
         {
-            if (_isMovingHorizontal)
+            if (_isMovingHorizontal | !_canMove)
                 return;
             
             if (_currentBeamPlatformNumber > 0)
             {
                 --_currentBeamPlatformNumber;
-                MoveHorizontalToCurrentPlatform();
+                MoveHorizontalToCurrentPlatform(_config.ChangeLineDuration);
             }
         }
         
