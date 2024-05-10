@@ -1,3 +1,4 @@
+using Game.UI;
 using UI.Base;
 
 namespace Architecture.Services.Interfaces
@@ -5,6 +6,7 @@ namespace Architecture.Services.Interfaces
     public interface IUIFactory
     {
         LoadingCurtain LoadingCurtain { get; }
-        void CreateLoadingCurtain();
+        LoadingCurtain CreateLoadingCurtain();
+        CountDownBeforeStartGame CreateCountDownBeforeStartGame();
     }
 }

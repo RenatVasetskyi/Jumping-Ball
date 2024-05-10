@@ -15,5 +15,6 @@ namespace Data
         public const string GameUICamera = "Prefabs/Game/Cameras/GameUICamera";
         public const string GameView = "Prefabs/UI/Game/GameView";
         public const string LoadingCurtain = "Prefabs/UI/LoadingCurtain";
+        public const string CountDownBeforeStartGame = "Prefabs/UI/Game/StartGameCountDown";
     }
 }

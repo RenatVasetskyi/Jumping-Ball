@@ -52,7 +52,7 @@ namespace Game.Player
         public void SetPause(bool isPaused)
         {
             if (isPaused)
-            {
+            { 
                 Pause();
                 return;
             }
@@ -101,19 +101,16 @@ namespace Game.Player
         private void JumpToNextBeamLine()
         {
             //Check Lose
-            if (_currentBeamLine != null && _colorType != _currentBeamLine.Platforms[_currentBeamPlatformNumber].ColorType)
+            if (IsLose())
             {
-                _level.SendLose();
-                
+                Lose();
                 return;
             }
             
             //Check Victory
             if (IsTheEndOfPath())
             {
-                _canMove = false;
-                _level.SendVictory();
-                
+                Victory();
                 return;
             }
             
@@ -126,7 +123,7 @@ namespace Game.Player
             
             _currentBeamLineNumber++;
         }
-        
+
         private void MoveHorizontalToCurrentPlatform(float duration)
         {
             _isMovingHorizontal = true;
@@ -158,6 +155,28 @@ namespace Game.Player
                 --_currentBeamPlatformNumber;
                 MoveHorizontalToCurrentPlatform(_config.ChangeLineDuration);
             }
+        }
+        
+        private void Victory()
+        {
+            _gamePauser.SetPause(true);
+            _level.SendVictory();
+                
+            _canMove = false;
+        }
+
+        private void Lose()
+        {
+            _gamePauser.SetPause(true);
+            _level.SendLose();
+                
+            _canMove = false;
+        }
+
+        private bool IsLose()
+        {
+            return _currentBeamLine != null && _colorType !=
+                _currentBeamLine.Platforms[_currentBeamPlatformNumber].ColorType;
         }
         
         private void ChangeColorType(ColorConfig colorConfig)

@@ -27,8 +27,10 @@ MonoBehaviour:
     JumpDuration: 0.75
     ChangeLineDuration: 0.2
   GameCountDownConfig:
-    TimeInSecondsBeforeGameStart: 0
+    TimeInSecondsBeforeGameStart: 3
     MinScale: {x: 1, y: 1, z: 1}
     MaxScale: {x: 2, y: 2, z: 2}
-    ScaleDuration: 0.5
-    Easing: 34
+    ScaleDuration: 0.7
+    UnscaleDuration: 0.3
+    ScaleEasing: 34
+    UnScaleEasing: 1

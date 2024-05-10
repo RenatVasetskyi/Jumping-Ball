@@ -84,6 +84,14 @@ namespace Architecture.States
             
             if (_uiFactory.LoadingCurtain != null)
                 _uiFactory.LoadingCurtain.Hide();
+
+            StartCountDown(uiCamera);
+        }
+
+        private void StartCountDown(Camera camera)
+        {
+            CountDownBeforeStartGame countDown = _uiFactory.CreateCountDownBeforeStartGame();
+            countDown.Canvas.worldCamera = camera;
             
             _countDownService.StartCountDown(_gameSettings.GameCountDownConfig.TimeInSecondsBeforeGameStart);
         }

@@ -12,7 +12,9 @@ namespace Game.UI.CountDown.Data
         public Vector3 MaxScale;
         
         public float ScaleDuration;
+        public float UnscaleDuration;
 
-        public LeanTweenType Easing;
+        public LeanTweenType ScaleEasing;
+        public LeanTweenType UnScaleEasing;
     }
 }

@@ -1,6 +1,6 @@
-using System;
 using Architecture.Services.Interfaces;
 using Data;
+using Game.UI;
 using UI.Base;
 using Zenject;
 using Object = UnityEngine.Object;
@@ -20,7 +20,7 @@ namespace Architecture.Services.Factories
             _assetProvider = assetProvider;
         }
         
-        public void CreateLoadingCurtain()
+        public LoadingCurtain CreateLoadingCurtain()
         {
             if (LoadingCurtain != null)
             {
@@ -31,6 +31,14 @@ namespace Architecture.Services.Factories
                 (_assetProvider.LoadAsset<LoadingCurtain>(AssetPath.LoadingCurtain));
             
             LoadingCurtain.Show();
+
+            return LoadingCurtain;
+        }
+
+        public CountDownBeforeStartGame CreateCountDownBeforeStartGame()
+        {
+             return _instantiator.InstantiatePrefabForComponent<CountDownBeforeStartGame>
+                 (_assetProvider.LoadAsset<CountDownBeforeStartGame>(AssetPath.CountDownBeforeStartGame));
         }
     }
 }

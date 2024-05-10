@@ -32,6 +32,12 @@ namespace Architecture.Services
 
         private IEnumerator CountDown(int timeInSeconds)
         {
+            if (timeInSeconds <= 0)
+            {
+                OnCountDownFinished?.Invoke();
+                yield break;
+            }
+            
             TimeLeftInSeconds = timeInSeconds;
             OnTick?.Invoke(TimeLeftInSeconds);
             
