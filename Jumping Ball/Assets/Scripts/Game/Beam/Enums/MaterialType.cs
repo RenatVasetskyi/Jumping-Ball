@@ -2,8 +2,8 @@ namespace Game.Beam.Enums
 {
     public enum MaterialType
     {
-        Lava = 0,
-        Sand = 1,
+        Stone = 0,
+        Wall = 1,
         Grass = 2,
     }
 }
