@@ -41,15 +41,20 @@ namespace Architecture.Services.Factories
         {
             return _instantiator.InstantiatePrefab(prefab, at, rotation, parent);
         }
+        
+        public GameObject CreateBaseWithContainer(string path, Transform parent)
+        {
+            return _instantiator.InstantiatePrefab(_assetProvider.LoadAsset<GameObject>(path), parent);
+        }
+
+        public T CreateBaseWithObject<T>(string path, Vector3 at, Quaternion rotation, Transform parent) where T : Component
+        {
+            return Object.Instantiate(_assetProvider.LoadAsset<T>(path), at, rotation, parent);
+        }
 
         public T CreateBaseWithObject<T>(string path) where T : Component
         {
             return Object.Instantiate(_assetProvider.LoadAsset<T>(path));
-        }
-
-        public GameObject CreateBaseWithContainer(string path, Transform parent)
-        {
-            return _instantiator.InstantiatePrefab(_assetProvider.LoadAsset<GameObject>(path), parent);
         }
     }
 }

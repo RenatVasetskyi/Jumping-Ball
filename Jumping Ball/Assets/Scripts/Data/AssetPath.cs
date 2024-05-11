@@ -16,5 +16,7 @@ namespace Data
         public const string GameView = "Prefabs/UI/Game/GameView";
         public const string LoadingCurtain = "Prefabs/UI/LoadingCurtain";
         public const string CountDownBeforeStartGame = "Prefabs/UI/Game/StartGameCountDown";
+        public const string BallTouchParticle = "Prefabs/Game/Particles/BallTouchParticle";
+        public const string FinishParticle = "Prefabs/Game/Particles/FinishParticle";
     }
 }

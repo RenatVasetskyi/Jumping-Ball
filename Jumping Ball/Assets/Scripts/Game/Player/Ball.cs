@@ -15,6 +15,8 @@ namespace Game.Player
 {
     public class Ball : MonoBehaviour, IPauseHandler
     {
+        private const int FinishParticleSpawnOffsetZ = 50;
+        
         [SerializeField] private SphereCollider _sphereCollider;
         [SerializeField] private MeshRenderer _meshRenderer;
         
@@ -23,6 +25,7 @@ namespace Game.Player
         private ColorConfig[] _colorConfigs;
         private ISwipeReporter _swipeReporter;
         private IGamePauser _gamePauser;
+        private IBaseFactory _baseFactory;
         
         private BeamLine _currentBeamLine;
         
@@ -37,8 +40,9 @@ namespace Game.Player
 
         [Inject]
         public void Construct(GameSettings gameSettings, IUIFactory uiFactory, 
-            IGamePauser gamePauser)
+            IGamePauser gamePauser, IBaseFactory baseFactory)
         {
+            _baseFactory = baseFactory;
             _gamePauser = gamePauser;
             _config = gameSettings.BallConfig;
             _colorConfigs = gameSettings.ColorConfigs;
@@ -120,11 +124,15 @@ namespace Game.Player
             _currentBeamLine = _level.BeamLines[_currentBeamLineNumber];
 
             StartCoroutine(transform.DoJumpWithoutX(_currentBeamLine.Up.transform.position + new Vector3
-                (0, _sphereCollider.bounds.extents.y, 0), _config.JumpForce, _config.JumpDuration, JumpToNextBeamLine));
+                (0, _sphereCollider.bounds.extents.y, 0), _config.JumpForce, _config.JumpDuration, () =>
+            {
+                JumpToNextBeamLine();
+                CreateBallTouchParticle();
+            }));
             
             _currentBeamLineNumber++;
         }
-
+        
         private void MoveHorizontalToCurrentPlatform(float duration)
         {
             _isMovingHorizontal = true;
@@ -162,8 +170,24 @@ namespace Game.Player
         {
             _gamePauser.SetPause(true);
             _level.SendVictory();
+            
+            CreateFinishParticle();
                 
             _canMove = false;
+        }
+        
+        private void CreateBallTouchParticle()
+        {
+            _baseFactory.CreateBaseWithObject<ParticleSystem>(AssetPath.BallTouchParticle,
+                new Vector3(transform.position.x, transform.position.y - _sphereCollider
+                    .radius, transform.position.z), Quaternion.identity, null);
+        }
+
+        private void CreateFinishParticle()
+        {
+            _baseFactory.CreateBaseWithObject<ParticleSystem>(AssetPath.FinishParticle,
+                new Vector3(transform.position.x, transform.position.y, transform
+                    .position.z + FinishParticleSpawnOffsetZ), Quaternion.identity, null);
         }
 
         private void Lose()

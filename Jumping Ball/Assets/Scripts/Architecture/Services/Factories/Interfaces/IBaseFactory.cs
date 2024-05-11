@@ -9,7 +9,8 @@ namespace Architecture.Services.Factories.Interfaces
         T CreateBaseWithContainer<T>(string path, Vector3 at, Quaternion rotation, Transform parent) where T : Component;
         T CreateBaseWithContainer<T>(T prefab, Vector3 at, Quaternion rotation, Transform parent) where T : Component;
         GameObject CreateBaseWithContainer(GameObject prefab, Vector3 at, Quaternion rotation, Transform parent);
-        T CreateBaseWithObject<T>(string path) where T : Component;
         GameObject CreateBaseWithContainer(string path, Transform parent);
+        T CreateBaseWithObject<T>(string path, Vector3 at, Quaternion rotation, Transform parent) where T : Component;
+        T CreateBaseWithObject<T>(string path) where T : Component;
     }
 }
