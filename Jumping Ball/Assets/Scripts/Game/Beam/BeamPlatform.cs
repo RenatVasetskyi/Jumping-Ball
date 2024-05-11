@@ -8,14 +8,14 @@ namespace Game.Beam
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
-        private ColorConfig _config;
-        public ColorType ColorType { get; private set; }
+        private MaterialConfig _config;
+        public MaterialType MaterialType { get; private set; }
 
-        public void SetConfig(ColorConfig config)
+        public void SetConfig(MaterialConfig config)
         {
             _config = config;
-            _meshRenderer.material.color = _config.Color;
-            ColorType = config.Type;
+            _meshRenderer.material = _config.Material;
+            MaterialType = config.Type;
         }
     }
 }

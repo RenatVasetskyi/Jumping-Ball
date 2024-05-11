@@ -22,7 +22,7 @@ namespace Game.Player
         
         private BallConfig _config;
         private Level _level;
-        private ColorConfig[] _colorConfigs;
+        private MaterialConfig[] _materialConfigs;
         private ISwipeReporter _swipeReporter;
         private IGamePauser _gamePauser;
         private IBaseFactory _baseFactory;
@@ -36,7 +36,7 @@ namespace Game.Player
         private bool _canMove;
         private bool _isMovingHorizontal;
 
-        private ColorType _colorType;
+        private MaterialType _materialType;
 
         [Inject]
         public void Construct(GameSettings gameSettings, IUIFactory uiFactory, 
@@ -45,7 +45,7 @@ namespace Game.Player
             _baseFactory = baseFactory;
             _gamePauser = gamePauser;
             _config = gameSettings.BallConfig;
-            _colorConfigs = gameSettings.ColorConfigs;
+            _materialConfigs = gameSettings.MaterialConfigs;
             _swipeReporter = uiFactory.GameView.SwipeDetector;
         }
 
@@ -79,6 +79,13 @@ namespace Game.Player
         {
             Unsubscribe();
         }
+
+        private void Rotate()
+        {
+            transform.DORotate(Vector3.right * _config.RotationEndValue, _config.RotationDuration, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear)
+                .SetLoops(-1, LoopType.Restart);
+        }
         
         private void StartMovement()
         {
@@ -87,6 +94,7 @@ namespace Game.Player
             
             JumpToNextBeamLine();
             MoveHorizontalToCurrentPlatform(_config.ChangeLineDuration);
+            Rotate();
         }
         
         private void Pause()
@@ -200,19 +208,19 @@ namespace Game.Player
 
         private bool IsLose()
         {
-            return _currentBeamLine != null && _colorType !=
-                _currentBeamLine.Platforms[_currentBeamPlatformNumber].ColorType;
+            return _currentBeamLine != null && _materialType !=
+                _currentBeamLine.Platforms[_currentBeamPlatformNumber].MaterialType;
         }
         
-        private void ChangeColorType(ColorConfig colorConfig)
+        private void ChangeColorType(MaterialConfig materialConfig)
         {
-            _meshRenderer.material.color = colorConfig.Color;
-            _colorType = colorConfig.Type;
+            _meshRenderer.material = materialConfig.Material;
+            _materialType = materialConfig.Type;
         }
         
-        private ColorConfig GetRandomColorConfig()
+        private MaterialConfig GetRandomColorConfig()
         {
-            return _colorConfigs[Random.Range(0, _colorConfigs.Length)];
+            return _materialConfigs[Random.Range(0, _materialConfigs.Length)];
         }
 
         private bool IsTheEndOfPath()

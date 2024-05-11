@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5beb992161e04217be0ce871cd9527a, type: 3}
   m_Name: Game Settings
   m_EditorClassIdentifier: 
-  ColorConfigs:
+  MaterialConfigs:
   - Type: 0
-    Color: {r: 0.92993367, g: 1, b: 0, a: 0}
+    Material: {fileID: 2100000, guid: a74af49949acb0945b8396d6fa7b0bc5, type: 2}
   - Type: 1
-    Color: {r: 0, g: 0.32854462, b: 1, a: 0}
+    Material: {fileID: 2100000, guid: a8bafeb9ce249ad449cd43f428bf7668, type: 2}
   - Type: 2
-    Color: {r: 0.15178537, g: 1, b: 0, a: 0}
+    Material: {fileID: 2100000, guid: aa687d57e9cbd134b8545550b4ab507c, type: 2}
   GameCameraConfig:
     FollowTargetOffset: {x: 0, y: 3, z: -6}
     StartRotation: {x: 10, y: 0, z: 0}
@@ -26,6 +26,8 @@ MonoBehaviour:
     JumpForce: 2.5
     JumpDuration: 1
     ChangeLineDuration: 0.2
+    RotationEndValue: 360
+    RotationDuration: 0.5
   GameCountDownConfig:
     TimeInSecondsBeforeGameStart: 3
     MinScale: {x: 1, y: 1, z: 1}

@@ -31,17 +31,17 @@ namespace Game.Beam
 
         private void SetRandomPlatformConfigs()
         {
-            List<ColorConfig> platformConfigs = _gameSettings.ColorConfigs.ToList();
+            List<MaterialConfig> platformConfigs = _gameSettings.MaterialConfigs.ToList();
             
             foreach (BeamPlatform platform in _platforms)
             {
-                ColorConfig randomConfig = GetRandomPlatformConfig(platformConfigs);
+                MaterialConfig randomConfig = GetRandomMaterialConfig(platformConfigs);
                 platform.SetConfig(randomConfig);
                 platformConfigs.Remove(randomConfig);
             }
         }
 
-        private ColorConfig GetRandomPlatformConfig(List<ColorConfig> platformConfigs)
+        private MaterialConfig GetRandomMaterialConfig(List<MaterialConfig> platformConfigs)
         {
             return platformConfigs[Random.Range(0, platformConfigs.Count)];
         }

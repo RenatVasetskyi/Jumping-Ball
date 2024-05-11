@@ -9,7 +9,7 @@ namespace Data
     [CreateAssetMenu(fileName = "Game Settings", menuName = "Create Game Settings")]
     public class GameSettings : ScriptableObject
     {
-        public ColorConfig[] ColorConfigs;
+        public MaterialConfig[] MaterialConfigs;
         public GameCameraConfig GameCameraConfig;
         public BallConfig BallConfig;
         public GameCountDownConfig GameCountDownConfig;
