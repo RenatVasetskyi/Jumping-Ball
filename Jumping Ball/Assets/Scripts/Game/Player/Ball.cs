@@ -15,8 +15,6 @@ namespace Game.Player
 {
     public class Ball : MonoBehaviour, IPauseHandler
     {
-        private const int FinishParticleSpawnOffsetZ = 50;
-        
         [SerializeField] private SphereCollider _sphereCollider;
         [SerializeField] private MeshRenderer _meshRenderer;
         
@@ -49,7 +47,7 @@ namespace Game.Player
             _swipeReporter = uiFactory.GameView.SwipeDetector;
         }
 
-        public void Initialize(Level level)
+        public void Construct(Level level)
         {
             _level = level;
         }
@@ -141,6 +139,13 @@ namespace Game.Player
             _currentBeamLineNumber++;
         }
         
+        private void CreateBallTouchParticle()
+        {
+            _baseFactory.CreateBaseWithObject<ParticleSystem>(AssetPath.BallTouchParticle,
+                new Vector3(transform.position.x, transform.position.y - _sphereCollider
+                    .radius, transform.position.z), Quaternion.identity, null);
+        }
+        
         private void MoveHorizontalToCurrentPlatform(float duration)
         {
             _isMovingHorizontal = true;
@@ -176,33 +181,13 @@ namespace Game.Player
         
         private void Victory()
         {
-            _gamePauser.SetPause(true);
             _level.SendVictory();
-            
-            CreateFinishParticle();
-                
             _canMove = false;
         }
         
-        private void CreateBallTouchParticle()
-        {
-            _baseFactory.CreateBaseWithObject<ParticleSystem>(AssetPath.BallTouchParticle,
-                new Vector3(transform.position.x, transform.position.y - _sphereCollider
-                    .radius, transform.position.z), Quaternion.identity, null);
-        }
-
-        private void CreateFinishParticle()
-        {
-            _baseFactory.CreateBaseWithObject<ParticleSystem>(AssetPath.FinishParticle,
-                new Vector3(transform.position.x, transform.position.y, transform
-                    .position.z + FinishParticleSpawnOffsetZ), Quaternion.identity, null);
-        }
-
         private void Lose()
         {
-            _gamePauser.SetPause(true);
             _level.SendLose();
-                
             _canMove = false;
         }
 

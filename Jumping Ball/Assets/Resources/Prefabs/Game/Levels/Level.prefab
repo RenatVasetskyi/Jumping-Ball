@@ -278,6 +278,8 @@ MonoBehaviour:
   - {fileID: 683508014372033692}
   - {fileID: 107136561340718715}
   _ballStartPoint: {fileID: 7003277449554136693}
+  _finishParticleSpawnPoint: {fileID: 232610009787762133}
+  _cameraRotationonFinish: {x: -68, y: 0, z: 0}
 --- !u!1 &3639671007914701429
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +660,38 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 1, y: 1, z: 0.051}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2477794910787000625}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7285033040975366756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 232610009787762133}
+  m_Layer: 0
+  m_Name: FinishParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &232610009787762133
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7285033040975366756}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 6, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2477794910787000625}
@@ -767,6 +800,7 @@ Transform:
   m_Children:
   - {fileID: 5948220252258686412}
   - {fileID: 7003277449554136693}
+  - {fileID: 232610009787762133}
   m_Father: {fileID: 3579250173298316110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &68114617204199852

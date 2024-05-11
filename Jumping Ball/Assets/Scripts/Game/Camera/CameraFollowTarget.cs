@@ -1,3 +1,4 @@
+using System;
 using Data;
 using Game.Camera.Data;
 using UnityEngine;
@@ -8,9 +9,8 @@ namespace Game.Camera
     public class CameraFollowTarget : MonoBehaviour
     {
         private Transform _target;
-
         private GameCameraConfig _config;
-
+        
         [Inject]
         public void Construct(GameSettings gameSettings)
         {
@@ -20,6 +20,12 @@ namespace Game.Camera
         public void SetTarget(Transform target)
         {
             _target = target;
+        }
+        
+        public void Rotate(Vector3 targetRotation, float duration, Action onComplete = null)
+        {
+            LeanTween.rotate(gameObject, targetRotation, duration)
+                .setOnComplete(() => onComplete?.Invoke());
         }
 
         private void Awake()

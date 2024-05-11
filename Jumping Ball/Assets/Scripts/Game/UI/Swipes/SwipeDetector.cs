@@ -8,7 +8,7 @@ namespace Game.UI.Swipes
     public class SwipeDetector : MonoBehaviour, IPointerDownHandler,
         IPointerMoveHandler, ISwipeReporter
     {
-        private const float MinDistanceToSwipe = 0.5f;
+        private const float MinDistanceToDetectSwipe = 0.8f;
         
         private const int MaxAngle = 180;
 
@@ -50,7 +50,7 @@ namespace Game.UI.Swipes
             
             _endTouchPosition = _camera.ScreenToWorldPoint(eventData.position);
             
-            if (Vector2.Distance(_startTouchPosition, _endTouchPosition) >= MinDistanceToSwipe)
+            if (Vector2.Distance(_startTouchPosition, _endTouchPosition) >= MinDistanceToDetectSwipe)
             {
                 CalculateAngle();
 
