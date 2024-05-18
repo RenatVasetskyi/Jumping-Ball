@@ -13,5 +13,7 @@ namespace Data
         public GameCameraConfig GameCameraConfig;
         public BallConfig BallConfig;
         public GameCountDownConfig GameCountDownConfig;
+        public float ShowLoseWindowDelay;
+        public float ShowVictoryWindowDelay;
     }
 }

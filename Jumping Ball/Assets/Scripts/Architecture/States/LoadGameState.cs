@@ -52,6 +52,9 @@ namespace Architecture.States
 
         public void Enter()
         {
+            if (_uiFactory.LoadingCurtain == null)
+                _uiFactory.CreateLoadingCurtain();
+            
             _countDownService.OnCountDownFinished += Unpause;
             
             _sceneLoader.Load(GameScene, Initialize);
@@ -75,7 +78,7 @@ namespace Architecture.States
             gameView.SwipeDetector.SetCamera(uiCamera);
             
             Level level = _baseFactory.CreateBaseWithContainer<Level>(AssetPath.Level, parent);
-            level.Construct(cameraFollowTarget);
+            level.Construct(cameraFollowTarget, gameView);
             
             _ball = _baseFactory.CreateBaseWithContainer<Ball>(AssetPath.Ball, 
                 level.BallStartPoint.position, Quaternion.identity, parent);

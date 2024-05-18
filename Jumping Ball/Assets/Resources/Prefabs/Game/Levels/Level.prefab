@@ -279,7 +279,7 @@ MonoBehaviour:
   - {fileID: 107136561340718715}
   _ballStartPoint: {fileID: 7003277449554136693}
   _finishParticleSpawnPoint: {fileID: 232610009787762133}
-  _cameraRotationonFinish: {x: -68, y: 0, z: 0}
+  _cameraRotationFinish: {x: -68, y: 0, z: 0}
 --- !u!1 &3639671007914701429
 GameObject:
   m_ObjectHideFlags: 0

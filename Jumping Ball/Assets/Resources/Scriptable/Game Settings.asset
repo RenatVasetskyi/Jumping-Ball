@@ -36,3 +36,5 @@ MonoBehaviour:
     UnscaleDuration: 0.3
     ScaleEasing: 27
     UnScaleEasing: 1
+  ShowLoseWindowDelay: 0
+  ShowVictoryWindowDelay: 2.8
